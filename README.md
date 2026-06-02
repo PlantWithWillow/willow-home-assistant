@@ -1,8 +1,14 @@
 # Willow for Home Assistant
 
+![Willow](assets/willow-icon.svg)
+
 Willow is a Home Assistant custom integration for connected Willow plant sensors.
 
 This repository is HACS-ready and currently stages the Willow integration code from Home Assistant Core under `custom_components/willow`.
+
+Public repository: <https://github.com/PlantWithWillow/willow-home-assistant>
+
+Current version: `1.0.0`
 
 ## Features
 
@@ -16,7 +22,7 @@ This repository is HACS-ready and currently stages the Willow integration code f
 1. Open Home Assistant.
 2. Go to **HACS**.
 3. Open the menu and select **Custom repositories**.
-4. Add this repository URL.
+4. Add `https://github.com/PlantWithWillow/willow-home-assistant`.
 5. Select **Integration** as the repository category.
 6. Install **Willow**.
 7. Restart Home Assistant.
@@ -38,6 +44,16 @@ This repository is HACS-ready and currently stages the Willow integration code f
 3. Search for **Willow**.
 4. Complete the OAuth2 authorization flow.
 
+## Build a GitHub release artifact
+
+Run the release build script from the repository root:
+
+```bash
+python3 scripts/build_release.py --clean
+```
+
+The script reads the integration version from `custom_components/willow/manifest.json` and creates a HACS-installable zip file under `dist/`.
+
 ## Repository structure
 
 ```text
@@ -51,15 +67,22 @@ custom_components/
     coordinator.py
     manifest.json
     sensor.py
+assets/
+  willow-icon.svg
+  willow-icon.png
+  willow-sensor-icon.svg
+  willow-sensor-icon.png
+scripts/
+  build_release.py
 hacs.json
 README.md
 ```
 
 ## Before publishing
 
-- Replace the placeholder GitHub URLs in `custom_components/willow/manifest.json` with the final public repository URL.
-- Add Home Assistant brand assets before submitting to the default HACS store.
-- Create a GitHub release that matches the integration version in `manifest.json`.
+- Confirm `custom_components/willow/manifest.json` points to `https://github.com/PlantWithWillow/willow-home-assistant`.
+- Keep Home Assistant brand assets in `assets/`; SVG and PNG versions are included for compatibility.
+- Create a GitHub release for `1.0.0` to match the integration version in `manifest.json`.
 - Add GitHub repository topics such as `home-assistant`, `hacs`, `custom-component`, and `willow`.
 
 ## Notes
