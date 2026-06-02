@@ -42,7 +42,7 @@ def iter_integration_files() -> list[Path]:
 
 
 def build_zip(version: str, output_dir: Path) -> Path:
-    artifact_path = output_dir / f"willow-home-assistant-v{version}.zip"
+    artifact_path = output_dir / f"willow-home-assistant.zip"
     output_dir.mkdir(parents=True, exist_ok=True)
 
     if artifact_path.exists():
