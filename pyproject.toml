@@ -1,0 +1,38 @@
+[project]
+name = "willow"
+version = "1.0.0"
+description = "Willow integration for Home Assistant."
+readme = "README.md"
+requires-python = ">=3.13.2,<4.0.0"
+dependencies = [
+    "homeassistant~=2025.12.0",
+]
+
+[tool.poetry]
+package-mode = false
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.2.0",
+    "pytest>=8.3.5",
+    "pytest-asyncio>=0.26.0",
+    "pytest-homeassistant-custom-component>=0.13.243",
+    "ruff>=0.14.1",
+]
+
+[tool.uv]
+required-version = ">=0.8.0"
+
+[tool.ruff]
+line-length = 88         # Matches black
+show-fixes = true
+target-version = "py313"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff.format]
+docstring-code-format = true
+docstring-code-line-length = "dynamic"
+line-ending = "auto"
