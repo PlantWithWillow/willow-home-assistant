@@ -1,0 +1,21 @@
+{
+  "domain": "willow",
+  "name": "Willow",
+  "codeowners": [
+    "@PlantWithWillow"
+  ],
+  "config_flow": true,
+  "dependencies": [
+    "application_credentials"
+  ],
+  "documentation": "https://github.com/PlantWithWillow/willow-home-assistant",
+  "homekit": {},
+  "integration_type": "hub",
+  "issue_tracker": "https://github.com/PlantWithWillow/willow-home-assistant/issues",
+  "iot_class": "cloud_polling",
+  "quality_scale": "bronze",
+  "requirements": [],
+  "ssdp": [],
+  "version": "0.1.0",
+  "zeroconf": []
+}
