@@ -50,7 +50,7 @@ def build_zip(version: str, output_dir: Path) -> Path:
 
     with zipfile.ZipFile(artifact_path, "w", compression=zipfile.ZIP_DEFLATED) as release_zip:
         for source_path in iter_integration_files():
-            archive_path = source_path.relative_to(REPO_ROOT)
+            archive_path = source_path.relative_to(INTEGRATION_DIR)
             release_zip.write(source_path, archive_path)
 
     return artifact_path
