@@ -16,3 +16,10 @@ OAUTH2_CLIENT_SECRET = "df58fd78e62310b77be94290788d1439766982b0056928d5d26b3a3c
 
 GET_PROFILE_URL = f"{WILLOW_BASE_URL}/api/v1/profiles/short/"
 GET_DEVICES_URL = f"{WILLOW_BASE_URL}/api/v1b/sensor/paired/"
+
+PANEL_URL_PATH = "willow"
+PANEL_TITLE = "Willow"
+PANEL_ICON = "mdi:sprout"
+PANEL_NAME = "willow-panel"
+PANEL_STATIC_PATH = "/willow_panel"
+PANEL_FILE = "willow-panel.js"
