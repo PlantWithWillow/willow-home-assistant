@@ -56,25 +56,21 @@ The script reads the integration version from `custom_components/willow/manifest
 
 > **Important:** Because `hacs.json` sets `"zip_release": true`, HACS extracts the contents of `willow-home-assistant.zip` **directly into** `config/custom_components/willow/`. The release zip must therefore contain the integration files (`manifest.json`, `__init__.py`, ...) at its **root**, not nested under `custom_components/willow/`. `build_release.py` produces this layout. If the files are nested, Home Assistant won't find `manifest.json` and the integration will never appear in the **Add integration** list even though HACS shows it as downloaded.
 
-## Integration icon (Home Assistant brands)
+## Integration icon (local brand images)
 
-The icon shown in the HACS list and the **Add integration** page is **not** read from this repository or from `icons.json` (which only controls entity icons). It is served from the Home Assistant brands CDN (`https://brands.home-assistant.io/<domain>/icon.png`). Until `willow` is registered there, Home Assistant shows the default puzzle icon.
+The icon shown in the HACS list and the **Add integration** page is **not** read from `icons.json` (which only controls entity icons). Since Home Assistant **2026.3**, custom integrations can ship their own brand images in a `brand/` directory inside the integration, and these take priority over the brands CDN — no `home-assistant/brands` pull request is needed.
 
-Ready-to-submit brand assets are staged in `brands/custom_integrations/willow/`:
+The assets live at `custom_components/willow/brand/` and are bundled into the HACS release zip automatically:
 
 ```text
-brands/custom_integrations/willow/
+custom_components/willow/brand/
   icon.png      # 256x256
   icon@2x.png   # 512x512
 ```
 
-To make the icon appear:
+Supported filenames are `icon.png`, `icon@2x.png`, `logo.png`, `logo@2x.png` and their `dark_` variants. After installing/updating via HACS and restarting, the Willow icon replaces the default puzzle icon (a browser refresh may be needed).
 
-1. Fork [`home-assistant/brands`](https://github.com/home-assistant/brands).
-2. Copy `brands/custom_integrations/willow/` into the fork at `custom_integrations/willow/` (custom integrations live under `custom_integrations/`, not `core_integrations/`).
-3. Confirm the images are square PNGs: `icon.png` 256x256 and `icon@2x.png` 512x512 (optionally add `logo.png`/`logo@2x.png`).
-4. Open a pull request to `home-assistant/brands` and wait for it to be merged.
-5. After the brands CDN updates (it can take a while, and a browser/HA refresh may be needed), the Willow icon replaces the default puzzle icon.
+> Requires Home Assistant **2026.3 or newer** for local brand images. On older versions the default puzzle icon is shown unless the integration is registered in the `home-assistant/brands` CDN repo.
 
 ## Repository structure
 
@@ -93,6 +89,9 @@ custom_components/
     manifest.json
     sensor.py
     strings.json
+    brand/
+      icon.png
+      icon@2x.png
     translations/
       en.json
 assets/
@@ -101,11 +100,6 @@ assets/
   willow-brand.svg
   willow-sensor-icon.svg
   willow-sensor-icon.png
-brands/
-  custom_integrations/
-    willow/
-      icon.png
-      icon@2x.png
 scripts/
   build_release.py
 hacs.json
@@ -116,8 +110,8 @@ README.md
 
 - Confirm `custom_components/willow/manifest.json` points to `https://github.com/PlantWithWillow/willow-home-assistant`.
 - Keep Home Assistant brand assets in `assets/`; SVG and PNG versions are included for compatibility.
-- Submit `brands/custom_integrations/willow/` to `home-assistant/brands` so the integration icon replaces the default puzzle icon (see the Integration icon section above).
-- Create a GitHub release for `1.0.0` to match the integration version in `manifest.json`. The release **must** attach the `dist/willow-home-assistant.zip` artifact built by `scripts/build_release.py`, since `hacs.json` uses `zip_release`.
+- Keep `custom_components/willow/brand/` icons in place; they ship in the HACS zip and provide the integration icon on Home Assistant 2026.3+ (see the Integration icon section above).
+- Create a GitHub release whose tag matches the integration version in `manifest.json` (currently `1.0.1`). The release **must** attach the `dist/willow-home-assistant.zip` artifact built by `scripts/build_release.py`, since `hacs.json` uses `zip_release`.
 - Add GitHub repository topics such as `home-assistant`, `hacs`, `custom-component`, and `willow`.
 
 ## Notes
