@@ -2,9 +2,10 @@
 
 const SENSOR_META = {
   temperature: { label: "Temperature", icon: "🌡️" },
-  humidity: { label: "Humidity", icon: "💧" },
-  moisture: { label: "Soil moisture", icon: "🪴" },
-  light: { label: "Light", icon: "☀️" },
+  humidity: { label: "Humidity", icon: "♨" },
+  moisture: { label: "Soil moisture", icon: "💦" },
+  light: { label: "Light", icon: "💡" },
+  illuminance: { label: "Illuminance", icon: "💡" },
   battery_life: { label: "Battery", icon: "🔋" },
   battery: { label: "Battery", icon: "🔋" },
   last_reading: { label: "Last reading", icon: "🕒" },
@@ -129,6 +130,47 @@ class WillowPanel extends HTMLElement {
     return `${state.state}${unit}`;
   }
 
+  _formatLastReading(value) {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) {
+      return value;
+    }
+
+    const diffMs = Date.now() - date.getTime();
+    const absDiffMs = Math.abs(diffMs);
+    const minuteMs = 60 * 1000;
+    const hourMs = 60 * minuteMs;
+
+    if (diffMs >= 0 && absDiffMs < hourMs) {
+      const minutes = Math.max(1, Math.floor(absDiffMs / minuteMs));
+      return `${minutes} minute${minutes === 1 ? "" : "s"} ago`;
+    }
+
+    if (diffMs >= 0 && absDiffMs < 24 * hourMs) {
+      const hours = Math.floor(absDiffMs / hourMs);
+      return `${hours} hour${hours === 1 ? "" : "s"} ago`;
+    }
+
+    return new Intl.DateTimeFormat(undefined, {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+    }).format(date);
+  }
+
+  _formatReading(entry) {
+    const state = this._hass.states[entry.entity_id];
+    if (!state || state.state === "unavailable" || state.state === "unknown") {
+      return this._formatState(entry);
+    }
+    if (this._readingKey(entry) === "last_reading") {
+      return this._formatLastReading(state.state);
+    }
+    return this._formatState(entry);
+  }
+
   _renderShell() {
     if (this._renderedShell) {
       return;
@@ -248,7 +290,7 @@ class WillowPanel extends HTMLElement {
             return `
               <div class="reading">
                 <span class="label">${meta.icon} ${label}</span>
-                <span class="value">${this._formatState(entry)}</span>
+                <span class="value">${this._formatReading(entry)}</span>
               </div>`;
           })
           .join("");
