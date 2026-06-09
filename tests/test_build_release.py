@@ -6,7 +6,7 @@ from scripts import build_release
 
 
 def test_build_zip_creates_hacs_release_artifact(tmp_path) -> None:
-    artifact_path = build_release.build_zip("1.1.0", tmp_path)
+    artifact_path = build_release.build_zip("1.1.1", tmp_path)
 
     assert artifact_path == tmp_path / "willow-home-assistant.zip"
     assert artifact_path.exists()
