@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Build GitHub release artifacts for the Willow Home Assistant integration."""
+
 from __future__ import annotations
 
 import argparse
@@ -50,13 +51,15 @@ def iter_integration_files() -> list[Path]:
 
 
 def build_zip(version: str, output_dir: Path) -> Path:
-    artifact_path = output_dir / f"willow-home-assistant.zip"
+    artifact_path = output_dir / "willow-home-assistant.zip"
     output_dir.mkdir(parents=True, exist_ok=True)
 
     if artifact_path.exists():
         artifact_path.unlink()
 
-    with zipfile.ZipFile(artifact_path, "w", compression=zipfile.ZIP_DEFLATED) as release_zip:
+    with zipfile.ZipFile(
+        artifact_path, "w", compression=zipfile.ZIP_DEFLATED
+    ) as release_zip:
         for source_path in iter_integration_files():
             archive_path = source_path.relative_to(INTEGRATION_DIR)
             release_zip.write(source_path, archive_path)
@@ -70,7 +73,9 @@ def clean_output(output_dir: Path) -> None:
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Build Willow GitHub release artifacts.")
+    parser = argparse.ArgumentParser(
+        description="Build Willow GitHub release artifacts."
+    )
     parser.add_argument(
         "--output-dir",
         type=Path,
