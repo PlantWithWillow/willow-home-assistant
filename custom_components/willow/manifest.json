@@ -11,7 +11,7 @@
     "panel_custom",
     "http"
   ],
-  "documentation": "https://github.com/PlantWithWillow/willow-home-assistant",
+  "documentation": "https://www.home-assistant.io/integrations/willow",
   "homekit": {},
   "integration_type": "hub",
   "issue_tracker": "https://github.com/PlantWithWillow/willow-home-assistant/issues",
