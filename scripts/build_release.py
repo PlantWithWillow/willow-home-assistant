@@ -6,6 +6,7 @@ import argparse
 import json
 from pathlib import Path
 import shutil
+import tomllib
 import zipfile
 
 
@@ -13,6 +14,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 DOMAIN = "willow"
 INTEGRATION_DIR = REPO_ROOT / "custom_components" / DOMAIN
 MANIFEST_PATH = INTEGRATION_DIR / "manifest.json"
+PYPROJECT_PATH = REPO_ROOT / "pyproject.toml"
 DIST_DIR = REPO_ROOT / "dist"
 
 
@@ -23,6 +25,12 @@ EXCLUDED_SUFFIXES = {".pyc", ".pyo"}
 def read_manifest() -> dict[str, object]:
     with MANIFEST_PATH.open(encoding="utf-8") as manifest_file:
         return json.load(manifest_file)
+
+
+def read_version() -> str:
+    with PYPROJECT_PATH.open("rb") as pyproject_file:
+        data = tomllib.load(pyproject_file)
+    return str(data["project"]["version"])
 
 
 def iter_integration_files() -> list[Path]:
@@ -84,8 +92,7 @@ def main() -> None:
     if args.clean:
         clean_output(output_dir)
 
-    manifest = read_manifest()
-    version = str(manifest["version"])
+    version = read_version()
     artifact_path = build_zip(version, output_dir)
 
     print(f"Built {artifact_path}")
