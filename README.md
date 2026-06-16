@@ -8,7 +8,7 @@ This repository is HACS-ready and currently stages the Willow integration code f
 
 Public repository: <https://github.com/PlantWithWillow/willow-home-assistant>
 
-Current version: `1.1.1`
+Current version: `1.2.0`
 
 ## Features
 
@@ -111,7 +111,7 @@ README.md
 - Confirm `custom_components/willow/manifest.json` points to `https://github.com/PlantWithWillow/willow-home-assistant`.
 - Keep Home Assistant brand assets in `assets/`; SVG and PNG versions are included for compatibility.
 - Keep `custom_components/willow/brand/` icons in place; they ship in the HACS zip and provide the integration icon on Home Assistant 2026.3+ (see the Integration icon section above).
-- Create a GitHub release whose tag matches the integration version in `manifest.json` (currently `1.1.1`). The release **must** attach the `dist/willow-home-assistant.zip` artifact built by `scripts/build_release.py`, since `hacs.json` uses `zip_release`.
+- Create a GitHub release whose tag matches the integration version in `manifest.json` (currently `1.2.0`). The release **must** attach the `dist/willow-home-assistant.zip` artifact built by `scripts/build_release.py`, since `hacs.json` uses `zip_release`.
 - Add GitHub repository topics such as `home-assistant`, `hacs`, `custom-component`, and `willow`.
 
 ## Notes
