@@ -57,12 +57,19 @@ def build_zip(version: str, output_dir: Path) -> Path:
     if artifact_path.exists():
         artifact_path.unlink()
 
+    manifest = read_manifest()
+    manifest["version"] = version
+    manifest_bytes = json.dumps(manifest, indent=2).encode("utf-8")
+
     with zipfile.ZipFile(
         artifact_path, "w", compression=zipfile.ZIP_DEFLATED
     ) as release_zip:
         for source_path in iter_integration_files():
             archive_path = source_path.relative_to(INTEGRATION_DIR)
-            release_zip.write(source_path, archive_path)
+            if archive_path.name == "manifest.json":
+                release_zip.writestr(str(archive_path), manifest_bytes)
+            else:
+                release_zip.write(source_path, archive_path)
 
     return artifact_path
 
